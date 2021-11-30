@@ -1,0 +1,5 @@
+*.swp
+boot/pack/kernel.itb
+boot/pack/vmlinux.kpart
+boot/pack/vmlinuz
+boot/pack/vmlinuz.lz4

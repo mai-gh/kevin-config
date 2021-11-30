@@ -1,0 +1,87 @@
+TODO:
+
+
+
+-- disable suspend key and lidswitch
+   -- etc/systemd/logind.conf
+   -- # systemctl restart systemd-logind
+
+-- autostart bluetooth
+   -- setup info @ archwiki
+   -- etc/bluetooth/main.conf
+
+-- keyboard remapping
+   -- https://wiki.archlinux.org/title/map_scancodes_to_keycodes
+   -- hwdb
+   -- change sleep key to delete
+   -- change change shift + up to pgup and shift + down to pgdn
+   -- also for home + end
+   -- f11 + f12 and possibly also f13 - f24
+   -- print screen
+   ** NOTES:
+         # evtest /dev/input/event2
+         # showkey --keycodes
+         # https://askubuntu.com/questions/742946/how-to-find-the-hwdb-header-of-a-general-input-device
+         # udevadm info /dev/input/event2
+         # find /sys -name *modalias
+         # udevadm hwdb --update; systemd-hwdb update; udevadm trigger; udevadm info /dev/input/event2 | grep KEYB
+         # i couldnt get this way to work but 'setkeycodes' does work on kernel 5.15.1
+
+
+
+
+
+A
+
+/sys/devices/platform/ff200000.spi/spi_master/spi2/spi2.0/cros-ec-dev.0.auto/cros-ec-sensorhub.1.auto/cros-ec-accel.11.auto/iio:device1/in_accel_x_raw
+    make systemd for 
+
+# https://wiki.archlinux.org/title/Keyboard_input#Identifying_scancodes
+# https://wiki.archlinux.org/title/map_scancodes_to_keycodes
+# see # scancodes evtest /dev/input/event2
+# setkeycodes scancode keycode
+# see keycodes: $ less /usr/include/linux/input-event-codes.h
+
+# rebind lock key  to delete
+setkeycodes 39 111
+
+
+
+
+-- enable hibernate / make work
+   -- set auto hibernate at ~2% battery with warning at 5%
+
+-- setup auto suspend script
+
+-- setup screen rotation and tablet mode
+
+-- set volume up / down buttons
+
+-- set screen blanking / auto turn off screen / screensaver
+
+-- guides how to reset / unbreak
+   -- sound, alsa, pulse
+   -- firefox / librewolf / icecat
+   -- parabola
+
+
+
+-- backup chromeos
+   -- # dd if=/dev/mmcblk1 | gzip -9 > kevin-chromeos-emmcfull.img.gz
+   -- # zcat kevin-chromeos-emmcfull.img.gz | dd of=/dev/dev/mmcblk1
+
+
+-- edit bios options (timer etc)
+    $ git clone https://aur.archlinux.org/flashrom-chromeos.git
+    $ cd flashrom-chromeos/
+    $ sed -i 's/^pkgver=.*/pkgver=97.14324/g' PKGBUILD
+    $ makepkg -s -A -i
+    # flashrom-chromeos --programmer internal
+    # flashrom-chromeos --programmer internal -r kevin-bios-stock.bin
+    # gbb_utility --set --flags=0x01 kevin-bios-stock.bin kevin-bios-2sec.bin
+    # flashrom-chromeos --programmer internal --wp-disable
+
+
+-- sway swtich layouts
+   mod + f = fullscreen
+   mod + e = switch layout mode
