@@ -1,3 +1,6 @@
+xwayland disable
+exec wl-paste -t text --watch clipman store --no-persist
+
 set $mod Mod1
 
 #exec sway-accel-rotate
@@ -8,8 +11,27 @@ set $up k
 set $right l
 set $term alacritty
 #set $term wayst --font Terminus --term xterm-256color
-set $menu dmenu_path | dmenu -fn Terminus | xargs swaymsg exec --
-output eDP-1 scale 2 
+#set $menu dmenu_path | dmenu -fn 'Terminus:Regular:pixelsize=32' -nb '#000000' -nf '#bbbbbb' -sb '#bbbbbb' -sf '#000000' | xargs swaymsg exec --
+set $menu bemenu-run --fn "Terminus 24" --prompt "$" -l 7 -f
+
+output eDP-1 scale 1 
+
+for_window [app_id="chromium"] focus parent
+
+#seat seat0 xcursor_theme default 96
+    bindsym $mod+Up exec wtype -k Page_Up
+    bindsym $mod+Down exec wtype -k Page_Down
+    bindsym Shift+Left exec wtype -k Home
+    bindsym Shift+Right exec wtype -k End
+
+    bindsym Control_L+F1 exec wtype -k F11
+    bindsym Control_L+F2 exec wtype -k F12
+
+    bindsym $mod+Shift+p exec grim -g "$(slurp)" - | wl-copy
+    bindsym $mod+Shift+Delete exec systemctl suspend
+
+    bindsym $mod+Shift+o exec swaymsg input "0:0:Atmel_maXTouch_Touchscreen" events toggle enabled disabled
+
     bindsym XF86PowerOff exec /home/main/scripts/sway-rotate-button.sh
     #bindsym --input-device=0:0:cros_ec_buttons XF86PowerOff exec /home/main/work/aur/sway-rotate-button.sh
     #bindsym $mod+i exec /home/main/work/aur/sway-rotate-button.sh
@@ -18,14 +40,15 @@ output eDP-1 scale 2
     bindsym $mod+p exec $menu
     floating_modifier $mod normal
     bindsym $mod+Shift+c reload
-    bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit sway?' -b 'Yes' 'swaymsg exit'
+    #bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit sway?' -b 'Yes' 'swaymsg exit'
+    bindsym $mod+Shift+q exec swaymsg exit
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
     bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
+#    bindsym $mod+Down focus down
+#    bindsym $mod+Up focus up
     bindsym $mod+Right focus right
     bindsym $mod+Shift+$left move left
     bindsym $mod+Shift+$down move down
@@ -83,7 +106,7 @@ bar {
     position top
     status_command ~/scripts/baraction.sh
     workspace_buttons no
-    font pango:Terminus Medium 10
+    font pango:Terminus Regular 18
     colors {
         statusline #ffffff
         background #323232

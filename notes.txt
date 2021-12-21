@@ -85,3 +85,17 @@ setkeycodes 39 111
 -- sway swtich layouts
    mod + f = fullscreen
    mod + e = switch layout mode
+
+
+
+change cpu speed
+
+# pacman -S cpupower
+# vim /etc/default/cpupower
+governor='schedutil'
+systemctl start cpupower
+systemctl enable cpupower
+
+
+cpupower frequency-info
+lscpu
