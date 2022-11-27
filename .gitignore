@@ -1,4 +1,5 @@
 *.swp
+*.pkg.tar*
 boot/pack/kernel.itb
 boot/pack/vmlinux.kpart
 boot/pack/vmlinuz
